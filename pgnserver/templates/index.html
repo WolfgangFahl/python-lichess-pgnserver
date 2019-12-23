@@ -24,6 +24,9 @@
        font-size:32px;
        color: white;
     }
+    .lichess {
+       background-color: #b6b360;
+    }
 	.fixed{
 	    background-color:#606cb6;
 	    width: {{width}}px;
@@ -47,7 +50,7 @@
            </iframe>
         </div>
         <div class='growing'> 
-          <form action='{{"/game/"+game.gameid}}' method='post'>
+          <form id='pgnupdate' action='{{"/game/"+game.gameid}}' method='post'>
              <fieldset>
              	<div class='block'>
              	    <a href='/' title='Home'>
@@ -73,22 +76,55 @@
                    }
                    function updateGameId(src) {
                       gameid=src.value
+                      updateLinks(gameid)
+                   }
+                   function updateLinks(gameid) {
                       updateLinkAndTitle('editlink','/game/'+gameid+'?edit','edit link for '+gameid)
                       updateLinkAndTitle('pgnlink','/game/'+gameid,'PGN for '+gameid)
                    }
+                   function timeStamp() {
+                	   var d = new Date();
+                	   var year = d.getFullYear()
+                	   var month=("0"+(d.getMonth()+1)).slice(-2)
+                	   var day=  ("0"+ d.getDate()).slice(-2)
+                	   var hours=("0"+ d.getHours()).slice(-2)
+                	   var mins= ("0"+ d.getMinutes()).slice(-2)
+                	   var secs= ("0"+ d.getSeconds()).slice(-2)
+                	   var ts=year+"-"+month+"-"+day+"_"+hours+mins+secs
+                	   return ts
+                   }
+                   function setValue(id,value) {
+                	   el=document.getElementById(id)
+                	   el.value=value
+                   }
+                   function newPgn() {
+                	   gameid="game_"+timeStamp()
+					   setValue("gameid",gameid)
+    				   setValue("pgn","*")
+    				   submitPgn()
+	               }
+                   function submitPgn() {
+                	   document.getElementById('pgnupdate').submit();
+                   }
                    </script>
                    <input id='gameid' name='gameid' value='{{game.gameid}}' onchange='updateGameId(this)' onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+                   <a id='newlink'    href='#' title='new pgn' onclick='newPgn()'><i class="material-icons icon" >note_add</i></a>
+                   {% if not game.lichess %}
+                   <a id='submitlink' href='#' title='update pgn' onclick="submitPgn()"><i class="material-icons icon" >check</i></a>
                    <a id='editlink' href='/game/{{game.gameid}}?edit' title='edit link for {{game.gameid}}'> <i class="material-icons icon">edit</i></a>
+                   {% endif %}
                    <a id='pgnlink'  href='/game/{{game.gameid}}'      title='PGN for {{game.gameid}}'><i class="material-icons icon">link</i></a>
                 </div>
                 <div class='block'>
      	             <label>pgn:</label>
-     	             <textarea rows='{{height//19}}' cols='60' id='pgn' name='pgn'>{{game.pgn}}</textarea>
+     	             <textarea {% if game.lichess %} class='lichess' {% endif %} rows='{{height//19}}' cols='60' id='pgn' name='pgn'>{{game.pgn}}</textarea>
      	        </div>
+     	        {% if not game.lichess %}
   	            <div class='block'>
   	            	<label></label>
      	        	<button id="update" type="submit">update</button>
-     	        </div>	
+     	        </div>
+     	        {% endif %}
              </fieldset>
           </form>
       </div>

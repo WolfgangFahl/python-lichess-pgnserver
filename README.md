@@ -1,5 +1,5 @@
 # python-lichess-pgnserver
-Portabel Game Notation Server to feed lichess broadcasts and view PGN of games
+Portable Game Notation Server to feed [lichess](http://lichess.org) [broadcasts](https://lichess.org/broadcast) and view PGN of games
 
 [![Join the chat at https://gitter.im/play-chess-with-a-webcam/community](https://badges.gitter.im/play-chess-with-a-webcam/community.svg)](https://gitter.im/play-chess-with-a-webcam/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
