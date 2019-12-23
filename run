@@ -1,5 +1,12 @@
 #!/bin/bash
 export PYTHONPATH=.
-nohup python3 pgnserver/pgnserver.py&
+app=pgnserver/pgnserver.py
+pgrep -fla $app > /dev/null
+if [  $? -eq 0 ]
+then
+   echo "killing running $app"
+   pkill -f $app
+fi
+nohup python3 $app&
 sleep 1
 tail -f nohup.out
