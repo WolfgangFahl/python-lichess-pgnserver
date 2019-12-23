@@ -153,11 +153,10 @@ def gameRequest(gameid):
         
 def updateGame(game,gameid,pgn):
     """ update the game with the given gameid and pgn - check whether the game argument is the right game else create a new one """
-    if gameid==game.gameid:
-        game.update(pgn)
-    else:
+    if not gameid==game.gameid:
         game=Game(gameid)
-        game.update(pgn) 
+    if not game.lichess: 
+        game.update(pgn)
     return index(game)      
 
 if __name__ == '__main__':

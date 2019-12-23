@@ -79,8 +79,8 @@
                       updateLinks(gameid)
                    }
                    function updateLinks(gameid) {
-                      updateLinkAndTitle('editlink','/game/'+gameid+'?edit','edit link for '+gameid)
-                      updateLinkAndTitle('pgnlink','/game/'+gameid,'PGN for '+gameid)
+                       updateLinkAndTitle('pgnlink','/game/'+gameid,'PGN for '+gameid)
+                       updateLinkAndTitle('editlink','/game/'+gameid+'?edit','edit link for '+gameid)
                    }
                    function timeStamp() {
                 	   var d = new Date();
@@ -95,7 +95,7 @@
                    }
                    function setValue(id,value) {
                 	   el=document.getElementById(id)
-                	   el.value=value
+                	   if (el) el.value=value
                    }
                    function newPgn() {
                 	   gameid="game_"+timeStamp()
@@ -109,8 +109,8 @@
                    </script>
                    <input id='gameid' name='gameid' value='{{game.gameid}}' onchange='updateGameId(this)' onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
                    <a id='newlink'    href='#' title='new pgn' onclick='newPgn()'><i class="material-icons icon" >note_add</i></a>
-                   {% if not game.lichess %}
                    <a id='submitlink' href='#' title='update pgn' onclick="submitPgn()"><i class="material-icons icon" >check</i></a>
+                   {% if not game.lichess %}
                    <a id='editlink' href='/game/{{game.gameid}}?edit' title='edit link for {{game.gameid}}'> <i class="material-icons icon">edit</i></a>
                    {% endif %}
                    <a id='pgnlink'  href='/game/{{game.gameid}}'      title='PGN for {{game.gameid}}'><i class="material-icons icon">link</i></a>
@@ -119,12 +119,10 @@
      	             <label>pgn:</label>
      	             <textarea {% if game.lichess %} class='lichess' {% endif %} rows='{{height//19}}' cols='60' id='pgn' name='pgn'>{{game.pgn}}</textarea>
      	        </div>
-     	        {% if not game.lichess %}
-  	            <div class='block'>
+  	            <div class='block' {% if game.lichess %} style="display: none;"{% endif %}>
   	            	<label></label>
      	        	<button id="update" type="submit">update</button>
      	        </div>
-     	        {% endif %}
              </fieldset>
           </form>
       </div>
