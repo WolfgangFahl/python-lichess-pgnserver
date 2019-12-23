@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8" />
+  <title>Lichess Game Relay {{gameid}}</title>
+  <!-- Material Design fonts-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Color scheme base: #b68860 see https://www.sessions.edu/color-calculator-results/?colors=b68860,606cb6,b060b6,b6b360 -->
+  <style>
+	div {
+	    color: #fff;
+	    font-family: Tahoma, Verdana, Segoe, sans-serif;
+	    padding: 10px;
+	}
+	input,textarea {
+	    font-size: 125%;
+	}
+	.container{
+	    background-color:#606cb6;
+	    display:flex;
+	}
+    .icon {
+       font-size:32px;
+       color: white;
+    }
+	.fixed{
+	    background-color:#606cb6;
+	    width: {{width}}px;
+	}
+	.growing {
+	    background-color:#606cb6;
+	    width: {{width}}px
+	    flex-grow: 1;
+	}
+	.block label { 
+	    display: inline-block; 
+	    width: 80px; 
+	    text-align: right; 
+	}
+  </style>
+</head>
+<body>
+  <div class='container'>
+       <div class='fixed'> 
+           <iframe src="https://lichess.org/embed/{{gameid}}?theme=auto&bg=auto" width={{width}} height={{height}}>
+           </iframe>
+        </div>
+        <div class='growing'> 
+          <form action='{{action}}' method='post'>
+             <fieldset>
+             	<div class='block'>
+             	    <a href='/' title='Home'>
+                	   <i class="material-icons icon">home</i>
+                	</a>
+                	<a href='https://github.com/WolfgangFahl/play-chess-with-a-webcam' title='Play Chess With A Webcam'>
+                	   <i class="material-icons icon">linked_camera</i>
+                	</a>
+                	<a href='https://gitter.im/play-chess-with-a-webcam/community' title='Chat'>
+                	   <i class="material-icons icon">chat</i>
+                	</a>
+                	<a href='http://wiki.bitplan.com/python-lichess-pgnserver' title='Help'>
+                	   <i class="material-icons icon">help</i>
+                	</a>
+                </div>
+             	<div class='block'>
+                   <label>gameid:</label>
+                   <script>
+                   function updateLinkAndTitle(id,link,title) {
+                      var linkel = document.getElementById(id)
+                      linkel.setAttribute("href", link)
+   		              linkel.setAttribute("title",title)
+                   }
+                   function updateGameId(src) {
+                      gameid=src.value
+                      updateLinkAndTitle('updatelink','/game/'+gameid+'?update','update link for '+gameid)
+                      updateLinkAndTitle('pgnlink','/game/'+gameid,'PGN for '+gameid)
+                   }
+                   </script>
+                   <input id='gameid' name='gameid' value='{{gameid}}' onchange='updateGameId(this)' onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+                   <a id='updatelink' href='/game/{{gameid}}?update' title='update link for {{gameid}}'> <i class="material-icons icon">edit</i></a>
+                	   <a id='pgnlink'    href='/game/{{gameid}}'        title='PGN for {{gameid}}'><i class="material-icons icon">link</i></a>
+                </div>
+                <div class='block'>
+     	             <label>pgn:</label>
+     	             <textarea rows='{{height//19}}' cols='60' id='pgn' name='pgn'>{{pgn}}</textarea>
+     	        </div>
+  	            <div class='block'>
+  	            	<label></label>
+     	        	<button id="update" type="submit">update</button>
+     	        </div>	
+             </fieldset>
+          </form>
+      </div>
+   </div>
+</html>
+   
+</body>
+</html>

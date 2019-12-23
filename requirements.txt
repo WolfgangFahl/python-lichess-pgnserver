@@ -1,0 +1,26 @@
+# 2019-12-22 WF
+#
+# runtime dependencies
+#
+# python-chess
+# https://buildmedia.readthedocs.org/media/pdf/python-chess/latest/python-chess.pdf
+python-chess
+# lichess APIs
+# https://github.com/rhgrant10/berserk
+berserk
+# https://github.com/cyanfish/python-lichess
+python-lichess
+# web tools
+Flask
+Flask-RESTful
+Flask-AutoIndex
+flask-webtest
+# config and state saving
+PyYAML
+#
+# test dependencies
+#
+# python tests
+pytest
+# pytest-cov
+pytest-cov

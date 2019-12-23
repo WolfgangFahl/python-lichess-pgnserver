@@ -1,0 +1,5 @@
+#!/bin/bash
+export PYTHONPATH=.
+nohup python3 pgnserver/pgnserver.py&
+sleep 1
+tail -f nohup.out
