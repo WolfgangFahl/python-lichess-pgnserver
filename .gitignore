@@ -127,7 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+# Mac
 *.DS_Store*
+# application specific
 data
-__pycache__
 nohup.out
