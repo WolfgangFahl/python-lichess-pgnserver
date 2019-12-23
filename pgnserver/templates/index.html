@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta charset="utf-8" />
-  <title>Lichess Game Relay {{gameid}}</title>
+  <title>Lichess Game Relay {{game.gameid}}</title>
   <!-- Material Design fonts-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Color scheme base: #b68860 see https://www.sessions.edu/color-calculator-results/?colors=b68860,606cb6,b060b6,b6b360 -->
@@ -43,11 +43,11 @@
 <body>
   <div class='container'>
        <div class='fixed'> 
-           <iframe src="https://lichess.org/embed/{{gameid}}?theme=auto&bg=auto" width={{width}} height={{height}}>
+           <iframe src="https://lichess.org/embed/{{game.gameid}}?theme=auto&bg=auto" width={{width}} height={{height}}>
            </iframe>
         </div>
         <div class='growing'> 
-          <form action='{{action}}' method='post'>
+          <form action='{{"/game/"+game.gameid}}' method='post'>
              <fieldset>
              	<div class='block'>
              	    <a href='/' title='Home'>
@@ -73,17 +73,17 @@
                    }
                    function updateGameId(src) {
                       gameid=src.value
-                      updateLinkAndTitle('updatelink','/game/'+gameid+'?update','update link for '+gameid)
+                      updateLinkAndTitle('editlink','/game/'+gameid+'?edit','edit link for '+gameid)
                       updateLinkAndTitle('pgnlink','/game/'+gameid,'PGN for '+gameid)
                    }
                    </script>
-                   <input id='gameid' name='gameid' value='{{gameid}}' onchange='updateGameId(this)' onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
-                   <a id='updatelink' href='/game/{{gameid}}?update' title='update link for {{gameid}}'> <i class="material-icons icon">edit</i></a>
-                	   <a id='pgnlink'    href='/game/{{gameid}}'        title='PGN for {{gameid}}'><i class="material-icons icon">link</i></a>
+                   <input id='gameid' name='gameid' value='{{game.gameid}}' onchange='updateGameId(this)' onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+                   <a id='editlink' href='/game/{{game.gameid}}?edit' title='edit link for {{game.gameid}}'> <i class="material-icons icon">edit</i></a>
+                   <a id='pgnlink'  href='/game/{{game.gameid}}'      title='PGN for {{game.gameid}}'><i class="material-icons icon">link</i></a>
                 </div>
                 <div class='block'>
      	             <label>pgn:</label>
-     	             <textarea rows='{{height//19}}' cols='60' id='pgn' name='pgn'>{{pgn}}</textarea>
+     	             <textarea rows='{{height//19}}' cols='60' id='pgn' name='pgn'>{{game.pgn}}</textarea>
      	        </div>
   	            <div class='block'>
   	            	<label></label>
