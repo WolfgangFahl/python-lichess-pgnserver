@@ -67,6 +67,6 @@ class PgnServerTest(TestCase):
 [Result "*"]
 
 *"""
-        self.assertEquals(pgn,game.pgn)
+        self.assertEqual(pgn,game.pgn)
         #self.assertFalse(os.path.isfile(game.pgnfile))
         

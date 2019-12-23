@@ -118,8 +118,7 @@ def index(game):
         width=min(width,2048)
     else:
         width=defaultWidth    
-    action='/game/'+game.gameid
-    return render_template('index.html',gameid=game.gameid,action=action,pgn=game.pgn,width=width,height=width*397//640)
+    return render_template('index.html',game=game,width=width,height=width*397//640)
 
 @app.route("/")
 def root():
@@ -130,9 +129,13 @@ def root():
 def gameRequest(gameid):
     game=Game(gameid)
     if request.method == 'GET':
+        edit=request.args.get('edit')
+        if edit is not None:
+            return index(game)
         update=request.args.get('update')
         if update is not None:
-            return index(game)
+            pgn=request.args.get('pgn')
+            return updateGame(game,gameid,pgn)
         """return the PGN for <gameid>"""
         if game.pgn is None:
             abort(404)
@@ -143,12 +146,19 @@ def gameRequest(gameid):
         formdata=request.form
         pgn=formdata['pgn']
         gameid=formdata['gameid']
-        if gameid==game.gameid:
-            game.update(pgn)
-        else:
-            game=Game(gameid)
-            game.update(pgn)    
-    return index(game)
+        return updateGame(game,gameid,pgn)
+    else:
+        # signal a bad request
+        abort(400)
+        
+def updateGame(game,gameid,pgn):
+    """ update the game with the given gameid and pgn - check whether the game argument is the right game else create a new one """
+    if gameid==game.gameid:
+        game.update(pgn)
+    else:
+        game=Game(gameid)
+        game.update(pgn) 
+    return index(game)      
 
 if __name__ == '__main__':
     args = Args(sys.argv).args
